@@ -1,70 +1,67 @@
 # Il codice simula una popolazione
-# formata da persone che possiedono proprietà che differiscono per il colore, taglio e velocità. 
+# formata da individui che possiedono proprietà diverse per colore, taglia e velocità.
 
+import random  # -> serve per generare caratteristiche differenti (colori, nucleotidi, taglia, ecc.)
 
-import random  #serve per generare caratteristiche differenti ( colori,nucleotidi,taglio..) 
- 
- 
-popolazione = []  # creamo una lista attualmente vuota, che servirà per segnare gli individui
- 
-colori = ["rosso", "verde", "blu"]  # prima lista possibile dei colori 
-nucleotidi = ["A", "T", "G", "C"]  # seconda lista delle quattro basi azzotate del DNA 
-num_individui = 5 # numero di individui di partenza in questo caso sono 5
-num_generazioni = 3  # numero di generazioni che si creano qui sono 3 
- 
- 
-for i in range(num_individui):  # ciclo che ripete il numero di generazioni da creare 
-    dna = ''.join(random.choice(nucleotidi) for _ in range(20))  # con questa dicitura si crea una stringa
-#composta da 20 caratteri  ogni carattere è scelto in modo casuale tra le basi azzotate 
+popolazione = []  # -> creiamo una lista vuota che servirà per memorizzare gli individui
+
+colori = ["rosso", "verde", "blu"]  # -> lista dei possibili colori
+nucleotidi = ["A", "T", "G", "C"]  # -> lista delle quattro basi azotate del DNA
+num_individui = 5  # -> numero iniziale di individui (in questo caso 5)
+num_generazioni = 3  # -> numero di generazioni da creare (in questo caso 3)
+
+for i in range(num_individui):  # -> ciclo che crea il numero di individui indicato
+    dna = ''.join(random.choice(nucleotidi) for _ in range(20))  # -> crea una stringa di 20 caratteri
+    # Ogni carattere è scelto in modo casuale tra le basi azotate.
     individuo = {
-        "id": i + 1,  # ID è la chiave del dizzionario e l'aggiunta di + 1 ci evita (ID=0) così che id assegnati non sono 0,1,2,3,4 ma 1,2,3,4,5.
-#Quindi serve solo per un conteggio più comune
-        "colore": random.choice(colori),   #colore preso in modo casuale
-        "taglia": random.randint(1, 10),  # numeri casuali di tra 1 e 10 compreso 
-        "velocità": random.randint(1, 10),  # numeri casuali di tra 1 e 10 compreso 
+        "id": i + 1,  # -> ID è la chiave del dizionario. L’aggiunta di +1 evita ID=0,
+        # quindi gli ID assegnati non sono 0,1,2,3,4 ma 1,2,3,4,5. Serve per un conteggio più comune.
+        "colore": random.choice(colori),  # -> colore scelto in modo casuale
+        "taglia": random.randint(1, 10),  # -> numero casuale tra 1 e 10 compresi
+        "velocità": random.randint(1, 10),  # -> numero casuale tra 1 e 10 compresi
         "DNA": dna
-    }  #queste parentisi ci indicano che tutte queste caratteristiche fanno parte di un dizzionarui
- 
-     popolazione.append(in o) #con esso si aggiunge l'individuo alla lista nominata popolazione
- 
+    }  # -> le parentesi indicano che tutte queste caratteristiche fanno parte di un dizionario
 
+    popolazione.append(individuo)  # -> aggiunge l’individuo alla lista chiamata popolazione
 
-for _ in range(num_generazioni): # ciclo che ripete le stesse cose dello scorso ciclo 
-    figli = []  #creazione di una nuova lista 
-    for ind in popolazione:  # scorre ogni individuo dalla lista popolazione
-        # tramite queste coppie si fa in modo che il figlio ereda dei caratteri del genitore
+for _ in range(num_generazioni):  # -> ciclo che ripete il processo per il numero di generazioni
+    figli = []  # -> creazione di una nuova lista per contenere i figli
+    for ind in popolazione:  # -> scorre ogni individuo nella lista popolazione
+        # Tramite queste istruzioni, il figlio eredita alcune caratteristiche del genitore.
         colore = ind["colore"]
         taglia = ind["taglia"]
         velocità = ind["velocità"]
- 
-        
-        dna = list(ind["DNA"]) #tramite esso si trasforma la stringa creata prima in una lista che possiamo modificare
-        posizione = random.randint(0, 19)  #ci indica in modo casuale la posizione del DNA tra 0-19 dato che può avere 20 posizioni 
-        dna[posizione] = random.choice(nucleotidi)  # si sostituisce la posizione ad un nucleotidi, così facendo è possibile  che ci si ripete, quindi la mutazione è obbligatoria 
-        dna_mutato = ''.join(dna)  # si ricostruisce la stringa del DNA mutata
- 
+
+        dna = list(ind["DNA"])  # -> trasforma la stringa del DNA in una lista modificabile
+        posizione = random.randint(0, 19)  # -> sceglie casualmente una posizione del DNA (da 0 a 19)
+        dna[posizione] = random.choice(nucleotidi)  # -> sostituisce la base in quella posizione con un nucleotido casuale.
+        # In questo modo può capitare che la nuova base sia uguale alla precedente, quindi la mutazione è obbligatoria ma non sempre effettiva.
+        dna_mutato = ''.join(dna)  # -> ricostruisce la stringa del DNA mutata
+
         # Crea il figlio
         figlio = {
-            "id": len(popolazione) + len(figli) + 1,  # prima ci indica il numero di generazioni iniziale che sono 5 e poi aggiungere figli creati in questa generazione,
-            #quindi si sommano prima i due valorie poi si aggiunge 1 per ottenere un  numero progressivo  
-            "colore": colore, #non c'è miutazione
-            "taglia": taglia,  #nessuna mutazione
-            "velocità": velocità,  #non c'è mutazione
-            "DNA": dna_mutato # adesso invece abbiamo il DNA mutato,trasformato in una lista, entra la varazione genetica nel codice 
+            "id": len(popolazione) + len(figli) + 1,  # -> prima considera il numero di individui esistenti,
+            # poi aggiunge i figli già creati in questa generazione e infine somma 1 per ottenere un numero progressivo.
+            "colore": colore,  # -> nessuna mutazione
+            "taglia": taglia,  # -> nessuna mutazione
+            "velocità": velocità,  # -> nessuna mutazione
+            "DNA": dna_mutato  # -> DNA mutato, qui entra la variazione genetica nel codice
         }
-        figli.append(figlio) # si aggiunge il nuovo figlio dentro la lista 
-    popolazione.extend(figli) # dopo aver creato tutti i figlio relativi ad ogni generazione , li aggiunge alla lista popolazione 
- 
+        figli.append(figlio)  # -> aggiunge il nuovo figlio alla lista dei figli
+    popolazione.extend(figli)  # -> dopo aver creato tutti i figli, li aggiunge alla lista popolazione
 
-media_taglia = sum(ind["taglia"] for ind in popolazione) / len(popolazione)  #crea una lista virtuale e ci somma tutti i valori e dividendo per il numero totale degli individui trovati 
+# --- ANALISI FINALE ---
+media_taglia = sum(ind["taglia"] for ind in popolazione) / len(popolazione)  # -> somma tutte le taglie e divide per il numero totale di individui
 media_velocità = sum(ind["velocità"] for ind in popolazione) / len(popolazione)
- 
+
 print("\n=== RISULTATI FINALI ===")
 print(f"Totale individui: {len(popolazione)}")
 print(f"Media taglia: {media_taglia:.2f}")
 print(f"Media velocità: {media_velocità:.2f}")
 print("Percentuale di mutati: 100%  (tutti mutano in ogni generazione)")
- 
+
 print("\nEsempio DNA degli individui finali:")
 for ind in popolazione:
-    print(f"ID {ind['id']}: {ind['DNA']}")            
+    print(f"ID {ind['id']}: {ind['DNA']}")
+# Con questa parte di codice si stampa a video il numero totale di individui,
+# le loro caratteristiche medie e il DNA di ciascun individuo.
